@@ -1,24 +1,13 @@
 package com.example;
 
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
+
 public class FelineParameterizedTest {
 
-    private final int kittensCount;
-    private final int expectedKittensCount;
-
-    public FelineParameterizedTest(int kittensCount, int expectedKittensCount) {
-        this.kittensCount = kittensCount;
-        this.expectedKittensCount = expectedKittensCount;
-    }
-
-    @Parameterized.Parameters
-    public static Object[][] getKittensCount() {
+    public static Object[][] data() {
         return new Object[][] {
                 { 1, 1},
                 { 2, 2},
@@ -27,11 +16,12 @@ public class FelineParameterizedTest {
         };
     }
 
-    @Test
-    void testGetKittensWithParameter() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void getKittensWithParameters(int kittensCount, int expectedKittensCount) {
         Feline feline = new Feline();
         int actual = feline.getKittens(kittensCount);
-        assertEquals(actual, expectedKittensCount, "Ожидается целое количество котят");
+        assertEquals(expectedKittensCount, actual,"Ожидается целое количество котят");
     }
 
 }

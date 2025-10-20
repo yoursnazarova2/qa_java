@@ -1,31 +1,25 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 
-@RunWith(MockitoJUnitRunner.class)
-class FelineTest {
+public class FelineTest {
 
     @Test
-    void testFelineGetFoodReturnsMeatBirdFish() throws Exception { //mock
-        Feline feline = spy(new Feline());
+    public void eatMeatReturnsMeatBirdFish() throws Exception { //mock
+        Feline spyFeline = spy(new Feline());
         List<String> expected = List.of("Мясо", "Курица", "Лосось на пару");
-        List<String> actual = feline.eatMeat();
-        Mockito.when(feline.getFood("Хищник")).thenReturn(expected);
+        Mockito.when(spyFeline.getFood("Хищник")).thenReturn(expected);
+        List<String> actual = spyFeline.eatMeat();
         assertEquals(expected, actual, "Кошачьи - это хищники, поэтому едят животных, птицу, рыбу");
-        Mockito.verify(feline.getFood("Хищник"));
+        Mockito.verify(spyFeline).getFood("Хищник");
     }
 
     @Test
-    void testGetFelineFamily() { //mock
+    public void getFamilyReturnsFeline() { //mock
         Feline feline = new Feline();
         String expected = "Кошачьи";
         String actual = feline.getFamily();
@@ -33,11 +27,10 @@ class FelineTest {
     }
 
     @Test
-    void testGetKittensWithNoParams() {
+    public void getKittensWithNoParameters() {
         Feline feline = new Feline();
         int expected = 1;
-        int actual = feline.getKittens(1);
+        int actual = feline.getKittens();
         assertEquals(expected, actual,"Ожидается один сладкий котенок");
     }
-
 }
