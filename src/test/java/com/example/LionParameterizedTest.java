@@ -17,9 +17,21 @@ public class LionParameterizedTest {
 
     @ParameterizedTest
     @MethodSource("data")
+    public void lionConstructorSexWithParameters(String sex, boolean hasMane) throws Exception {
+        Feline mockFeline = Mockito.mock(Feline.class);
+        Lion lion = new Lion(sex, mockFeline);
+        assertEquals(hasMane, lion.doesHaveMane());
+    }
+
+    @ParameterizedTest
+    @MethodSource("data")
     public void doesHaveManeWithParameters(String sex, boolean hasMane) throws Exception {
             Feline mockFeline = Mockito.mock(Feline.class);
             Lion lion = new Lion(sex, mockFeline);
             assertEquals(hasMane, lion.doesHaveMane());
         }
+
+
+
+
 }

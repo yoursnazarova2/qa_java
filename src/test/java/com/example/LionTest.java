@@ -13,6 +13,13 @@ public class LionTest {
     public String sex = "Самец";
 
     @Test
+    public void lionConstructorSexInvalidThrowsException() {
+        Feline mockFeline = Mockito.mock(Feline.class);
+        Exception exception = assertThrows(Exception.class, () -> new Lion("Invalid", mockFeline));
+        assertEquals("Используйте допустимые значения пола животного - самей или самка", exception.getMessage());
+    }
+
+    @Test
     public void getKittensWithNoParameters() throws Exception {
         Feline mockFeline = Mockito.mock(Feline.class);
         Lion lion = new Lion (sex, mockFeline);
@@ -23,7 +30,7 @@ public class LionTest {
     }
 
     @Test
-    public void getFoodReurnsMeatBirdFish() throws Exception {
+    public void getFoodReturnsMeatBirdFish() throws Exception {
         Feline spyFeline = spy(new Feline());
         Lion lion = new Lion (sex, spyFeline);
         Mockito.when(spyFeline.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
