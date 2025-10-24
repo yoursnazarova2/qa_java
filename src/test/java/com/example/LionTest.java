@@ -33,23 +33,20 @@ public class LionTest {
     public void getFoodReturnsMeatBirdFish() throws Exception {
         Feline spyFeline = spy(new Feline());
         Lion lion = new Lion (sex, spyFeline);
-        Mockito.when(spyFeline.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
+        Mockito.when(spyFeline.eatMeat()).thenReturn(expected);
         List<String> actual = lion.getFood();
         Mockito.verify(spyFeline, times(1)).getFood("Хищник");
         assertEquals(expected, actual, "Львы - это хищники, поэтому едят животных, птицу, рыбу");
         }
 
     @Test
-    void getFoodThrowsException() throws Exception {
+    public void getFoodThrowsException() throws Exception {
         Feline mockFeline = Mockito.mock(Feline.class);
+        Mockito.when(mockFeline.getFood("Хищник")).thenThrow(new Exception("Неизвестный вид животного, используйте значение Травоядное или Хищник"));
         Lion lion = new Lion (sex, mockFeline);
-        Mockito.when(mockFeline.eatMeat()).thenThrow(new Exception("Ошибка получения еды"));
-        try {
-            lion.getFood();
-        } catch (Exception exception) {
-            assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
-        }
+        Exception exception = assertThrows(Exception.class, () -> lion.getFood());
+        assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
         Mockito.verify(mockFeline, times(1)).getFood("Хищник");
     }
 }

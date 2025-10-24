@@ -2,6 +2,8 @@ package com.example;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.lang.reflect.Executable;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
@@ -22,8 +24,8 @@ public class CatTest {
     public void getFoodReturnsMeatBirdFish() throws Exception {
         Feline mockFeline = Mockito.mock(Feline.class);
         Cat cat = new Cat(mockFeline);
-        Mockito.when(mockFeline.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
+        Mockito.when(mockFeline.eatMeat()).thenReturn(expected);
         List<String> actual = cat.getFood();
         Mockito.verify(mockFeline, times(1)).eatMeat();
         assertEquals(expected, actual, "Коты - это хищники, поэтому едят животных, птицу, рыбу");
@@ -34,11 +36,8 @@ public class CatTest {
         Feline mockFeline = Mockito.mock(Feline.class);
         Mockito.when(mockFeline.eatMeat()).thenThrow(new Exception("Неизвестный вид животного, используйте значение Травоядное или Хищник"));
         Cat cat = new Cat(mockFeline);
-        try {
-            cat.getFood();
-        } catch (Exception exception) {
-            assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
-        }
-        Mockito.verify(mockFeline, times(1)).eatMeat(); // допольнительно убедимся, что действительно вызвали нужный метод и 1 раз
+        Exception exception = assertThrows(Exception.class, () -> cat.getFood());
+        assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
+        Mockito.verify(mockFeline, times(1)).eatMeat();
     }
 }

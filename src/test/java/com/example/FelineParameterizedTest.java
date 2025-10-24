@@ -21,7 +21,7 @@ public class FelineParameterizedTest {
     public void getKittensWithParameters(int kittensCount, int expectedKittensCount) {
         Feline feline = new Feline();
         int actual = feline.getKittens(kittensCount);
-        assertEquals(expectedKittensCount, actual,"Ожидается целое количество котят");
+        assertEquals(expectedKittensCount, actual,"Ожидается кол-во котят, равное kittensCount");
     }
 
 }
